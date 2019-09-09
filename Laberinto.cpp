@@ -5,12 +5,18 @@
 #include "DirectionMovement.h"
 #include "Player.h"
 #include "Fantasmas.h"
+#include "GameState.h"
 
+extern EGameState gameState;
+extern int chaseSteps;
+extern const int CRUMB_POINTS;
+extern const int PHANTOM_DROP_POINTS;
+extern const int PHANTOM_UP_POINTS;
 extern SPlayer player;
 extern SFantasma phantom[4];
 extern const int INIT_POINTS;
 
-const int FILAS = 11, COLS = 21;
+extern const int FILAS = 11, COLS = 21;
 
 char laberinto[FILAS][COLS] = {
 	{'X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X','X'},
@@ -105,4 +111,27 @@ bool SetMap(int Y, int X, char caracter)
 	laberinto[Y][X] = caracter;
 
 	return true;
+}
+
+void PlayerCollision(int Y, int X)
+{
+	char actor = GetMap(Y, X);
+	SFantasma f;
+	
+	switch (actor)
+	{
+	case '.':
+		player.Points += CRUMB_POINTS;
+		break;
+	case '*':
+		gameState = EGameState::CHASE;
+		chaseSteps = 0;
+		break;
+	case '"':
+		player.Points += PHANTOM_UP_POINTS;
+		break;
+	case '^':
+		player.Points -= PHANTOM_DROP_POINTS;
+		break;
+	}
 }

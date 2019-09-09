@@ -1,11 +1,14 @@
 #include "Fantasmas.h"
 #include "Laberinto.h"
 #include "DirectionMovement.h"
+#include "GameState.h"
 
 /*
 	VARIABLES DE LOS FANTASMAS
 */
 SFantasma phantom[4];
+
+extern EGameState gameState;
 
 void MueveFantasmas()
 {
@@ -98,6 +101,9 @@ void MueveFantasmas()
 			}
 		}
 
-		SetMap(phantom[i].Y, phantom[i].X, phantom[i].skinFLIGHT);
+		if (gameState==EGameState::FLIGHT)
+			SetMap(phantom[i].Y, phantom[i].X, phantom[i].skinFLIGHT);
+		else
+			SetMap(phantom[i].Y, phantom[i].X, phantom[i].skinCHASE);
 	}
 }

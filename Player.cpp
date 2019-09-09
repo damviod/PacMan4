@@ -67,5 +67,6 @@ void MuevePlayer(EDirectionMovement tipoMovimiento)
 		break;
 	}
 
+	PlayerCollision(player.Y, player.X);
 	SetMap(player.Y, player.X, player.Skin);
 }
